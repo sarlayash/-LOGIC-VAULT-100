@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="theme-color" content="#d4af37">
+  <meta name="description" content="KAPIL'S LOGIC-VAULT 100: 100 Real Industry Problem Statements, Logic Designs, Production Pseudocodes, 5 Mock Tests, and 1 Final Assessment. Powered By Kapil.">
+  <title>KAPIL'S LOGIC-VAULT 100 • 100 Industry Pseudocodes & Assessments</title>
+  
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="icons/favicon.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Confetti Particle Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a class="header-brand" id="brandHomeLink" href="#problems">
+        <div class="brand-icon">
+          <span style="font-weight:900; color:#ffd700; font-size:1.2rem;">K</span>
+        </div>
+        <div class="brand-titles">
+          <span class="brand-name">
+            <span class="gold-text">LOGIC-VAULT</span>
+            <span style="color:#ffd700;">100</span>
+          </span>
+          <span class="brand-sub">POWERED BY KAPIL</span>
+        </div>
+      </a>
+
+      <!-- Real-time dynamic clock -->
+      <div class="header-center">
+        <div class="clock-pill" title="Live System Time">
+          <span class="clock-pulse"></span>
+          <span id="liveClockDisplay">Loading Time...</span>
+        </div>
+        <div id="networkStatusBadge" class="gold-badge" style="font-size:0.7rem; padding: 3px 8px;">
+          ONLINE
+        </div>
+      </div>
+
+      <!-- Header actions & User Profile -->
+      <div class="header-actions">
+        <!-- Sound FX toggle -->
+        <button id="soundToggleBtn" class="btn-icon" title="Toggle Sound FX">
+          🔊
+        </button>
+
+        <!-- PWA Install button -->
+        <button id="installAppBtn" class="btn-icon" style="display:none;" title="Install Offline PWA">
+          📲
+        </button>
+
+        <!-- User Profile Pill -->
+        <div class="user-profile-badge" id="userProfileBadge">
+          <div class="user-avatar" id="userAvatar">K</div>
+          <div class="user-details">
+            <span class="user-name-text" id="headerLearnerName">Learner</span>
+            <span class="user-tier-text" id="headerUserLevel">Level 1 • 0 XP</span>
+          </div>
+        </div>
+
+        <!-- Logoff button -->
+        <button id="logoffBtn" class="btn-icon" title="Logoff / Switch Learner">
+          🚪
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs Bar -->
+  <nav class="nav-tabs-bar">
+    <div class="nav-tabs-container">
+      <button class="tab-btn active" data-tab="problemsTab">
+        <span>📚 100 Logic & Pseudocodes</span>
+        <span class="tab-badge" id="tabProblemsCount">0/100</span>
+      </button>
+      <button class="tab-btn" data-tab="testsTab">
+        <span>📝 Mock Tests & Finals</span>
+        <span class="tab-badge">6 Exams</span>
+      </button>
+      <button class="tab-btn" data-tab="badgesTab">
+        <span>🏆 Badges & Mastery</span>
+        <span class="tab-badge" id="tabBadgesCount">0/18</span>
+      </button>
+      <button class="tab-btn" data-tab="certTab">
+        <span>📜 Gold Certificate</span>
+        <span class="tab-badge" id="tabCertBadge">Locked</span>
+      </button>
+      <button class="tab-btn" data-tab="standardsTab">
+        <span>⚖️ Rubric & Standards</span>
+        <span class="tab-badge">100 Marks</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Workspace -->
+  <main class="main-content">
+
+    <!-- ========================================== -->
+    <!-- TAB 1: 100 PROBLEMS VAULT                  -->
+    <!-- ========================================== -->
+    <section id="problemsTab" class="tab-pane active">
+      <!-- Hero Banner -->
+      <div class="hero-card">
+        <div class="hero-header-row">
+          <div>
+            <div class="gold-badge" style="margin-bottom: 10px;">
+              SARLAYASH LEARNING SOLUTIONS • INDUSTRY PRACTICE SUITE
+            </div>
+            <h1 class="hero-headline">100 Real Industry Problem Statements</h1>
+            <p class="hero-tagline">
+              Not textbook exercises. Real operational decisions. Master logic design, multi-tier constraints, defensive edge cases, and language-independent pseudocode across 12 industry domains.
+            </p>
+          </div>
+          <div style="text-align: right;">
+            <button class="btn-pill btn-gold" id="heroStartBtn">
+              ⚡ Practice Next Problem
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric-box">
+            <span class="metric-value">100</span>
+            <span class="metric-label">Problem Statements</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-value">12</span>
+            <span class="metric-label">Industry Domains</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-value" id="statsMasteredCount">0</span>
+            <span class="metric-label">Problems Mastered</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-value" id="statsXpPoints">0</span>
+            <span class="metric-label">Learner XP Points</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overall Mastery Progress Bar -->
+      <div class="progress-card">
+        <div class="progress-header">
+          <span style="font-weight:700; font-size:0.88rem; color:#e0e0e0;">
+            100 Pseudocode Mastery Progress
+          </span>
+          <span style="font-weight:800; font-size:0.88rem; color:var(--gold-primary);" id="progressPctText">
+            0% Complete
+          </span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="overallProgressBar" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Controls, Search & Filter -->
+      <div class="controls-bar">
+        <div class="controls-row-top">
+          <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="problemSearchInput" class="search-input" placeholder="Search by title, number, keyword or constraint (e.g. Fraud, Cold-Chain, #045)...">
+          </div>
+          <select id="statusFilterSelect" class="filter-select">
+            <option value="ALL">All Problems (100)</option>
+            <option value="COMPLETED">Mastered Only</option>
+            <option value="INCOMPLETE">Pending Only</option>
+            <option value="BOOKMARKED">Bookmarked ⭐</option>
+          </select>
+        </div>
+
+        <!-- 12 Domain Filter Scroll -->
+        <div class="domains-scroll" id="domainFilterScroll">
+          <button class="domain-pill active" data-domain="ALL">
+            🌟 All Domains (100)
+          </button>
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+
+      <!-- Problems Grid -->
+      <div class="problems-grid" id="problemsContainer">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: MOCK TESTS & GRAND FINAL ASSESSMENT -->
+    <!-- ========================================== -->
+    <section id="testsTab" class="tab-pane" style="display:none;">
+      <!-- Hero -->
+      <div class="hero-card" style="margin-bottom: 24px;">
+        <div class="gold-badge" style="margin-bottom: 10px;">EXAMINATION SUITE</div>
+        <h2 class="hero-headline">5 Mock Tests & 1 Grand Final Assessment</h2>
+        <p class="hero-tagline">
+          Put your algorithmic and operational design skills to the test. Each mock test sharpens real-world constraint logic. Score 75% or higher on the Grand Final Assessment to unlock your prestigious Verified Gold Certificate!
+        </p>
+      </div>
+
+      <!-- Exam active interface container -->
+      <div id="activeExamContainer" class="exam-view">
+        <!-- Rendered dynamically when test is in progress -->
+      </div>
+
+      <!-- Test Selection Cards Grid -->
+      <div class="tests-container" id="testsGridContainer">
+        <!-- Mock Tests Injected via JS -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: BADGES & MASTERY                    -->
+    <!-- ========================================== -->
+    <section id="badgesTab" class="tab-pane" style="display:none;">
+      <div class="hero-card" style="margin-bottom: 24px;">
+        <div class="gold-badge" style="margin-bottom: 10px;">GAMIFIED PROGRESSION</div>
+        <h2 class="hero-headline">Learner Achievements & Domain Badges</h2>
+        <p class="hero-tagline">
+          Earn XP points by mastering problems and acing mock tests. Level up through 10 engineering tiers and unlock all 18 prestigious mastery seals.
+        </p>
+        <div class="hero-metrics" style="margin-top: 18px;">
+          <div class="metric-box">
+            <span class="metric-value" id="badgeTierName">Logic Novice</span>
+            <span class="metric-label">Current Tier</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-value" id="badgeCurrentXP">0</span>
+            <span class="metric-label">Total XP</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-value" id="badgeUnlockedCount">0 / 18</span>
+            <span class="metric-label">Badges Earned</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom: 14px; color:var(--gold-primary);">Special Achievement Milestones</h3>
+      <div class="badges-grid" id="specialBadgesGrid" style="margin-bottom: 30px;">
+        <!-- Injected via JS -->
+      </div>
+
+      <h3 style="margin-bottom: 14px; color:var(--gold-primary);">12 Industry Domain Mastery Seals</h3>
+      <div class="badges-grid" id="domainBadgesGrid">
+        <!-- Injected via JS -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 4: OFFICIAL GOLD CERTIFICATE           -->
+    <!-- ========================================== -->
+    <section id="certTab" class="tab-pane" style="display:none;">
+      <div class="hero-card" style="margin-bottom: 24px;">
+        <div class="gold-badge" style="margin-bottom: 10px;">OFFICIAL CREDENTIAL</div>
+        <h2 class="hero-headline">Certified Industry Logic Master Credential</h2>
+        <p class="hero-tagline">
+          Awarded upon achieving 75%+ in the Grand Final Assessment or completing 80+ industry logic problem statements. Verified by Kapil & SarlaYash Learning Solutions LLP.
+        </p>
+      </div>
+
+      <!-- Certificate Preview Container -->
+      <div id="certPrintArea" class="certificate-preview-box">
+        <div class="certificate-inner-border">
+          <div class="cert-seal">
+            ★
+          </div>
+          <h2 class="cert-title">Certificate of Mastery</h2>
+          <div class="cert-subtitle">INDUSTRY LOGIC DESIGN & PSEUDOCODE ARCHITECTURE</div>
+          
+          <p style="font-size:0.95rem; color:#aaa; margin-bottom:8px;">THIS PRESTIGIOUS CREDENTIAL IS PROUDLY CONFERRED UPON</p>
+          <div class="cert-recipient-name" id="certLearnerName">Learner Name</div>
+          
+          <p class="cert-statement">
+            For successfully demonstrating exceptional proficiency across 100 Real Industry Problem Statements, rigorous boundary condition validation, robust edge-case engineering, and language-independent pseudocode architecture across 12 economic domains.
+          </p>
+
+          <div class="cert-meta-row">
+            <div style="text-align: left;">
+              <div style="color:var(--gold-primary); font-weight:700;">VERIFICATION ID:</div>
+              <div id="certVerificationId" style="font-family:monospace; letter-spacing:1px; color:#fff;">KLV-2026-PENDING</div>
+              <div style="margin-top:4px;">ISSUE DATE: <span id="certIssueDate" style="color:#fff;">--</span></div>
+            </div>
+
+            <div style="text-align: center;">
+              <div style="font-size:1.4rem; color:var(--gold-primary); font-family:Georgia, serif; font-weight:800;">
+                POWERED BY KAPIL
+              </div>
+              <div style="font-size:0.75rem; color:#aaa; letter-spacing:0.5px;">SARLAYASH LEARNING SOLUTIONS LLP</div>
+            </div>
+
+            <div style="text-align: right;">
+              <div class="cert-signature-name">Kapil</div>
+              <div style="font-size:0.75rem; color:#aaa;">Chief Mentor & Systems Architect</div>
+              <div style="color:#22c55e; font-size:0.72rem; margin-top:2px;">● VERIFIED SIGNATURE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top:24px; display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+        <button id="printCertBtn" class="btn-pill btn-gold" style="padding:12px 28px; font-size:0.95rem;">
+          🖨️ Download / Print Gold Certificate
+        </button>
+        <button id="shareCertBtn" class="btn-pill btn-outline-gold" style="padding:12px 28px; font-size:0.95rem;">
+          📋 Copy Credential Link
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 5: RUBRIC & SUBMISSION STANDARDS       -->
+    <!-- ========================================== -->
+    <section id="standardsTab" class="tab-pane" style="display:none;">
+      <div class="hero-card" style="margin-bottom: 24px;">
+        <div class="gold-badge" style="margin-bottom: 10px;">OFFICIAL EVALUATION FRAMEWORK</div>
+        <h2 class="hero-headline">Evaluation Rubric (100 Marks) & Standards</h2>
+        <p class="hero-tagline">
+          The rigorous academic & industrial grading rubric established on Pages 2, 3, and 16 of the Industry Problem Bank standard specification.
+        </p>
+      </div>
+
+      <!-- 100 Marks Rubric Table -->
+      <div class="info-banner" style="margin-bottom: 24px;">
+        <h3 style="color:var(--gold-primary); margin-bottom:14px;">Evaluation Rubric Breakdown (100 Marks)</h3>
+        <div style="overflow-x:auto;">
+          <table style="width:100%; border-collapse:collapse; text-align:left; font-size:0.88rem;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--gold-border); color:var(--gold-primary);">
+                <th style="padding:12px;">Criteria</th>
+                <th style="padding:12px;">Marks</th>
+                <th style="padding:12px;">What Strong Work Demonstrates</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border-subtle);">
+                <td style="padding:12px; font-weight:700;">Problem Interpretation</td>
+                <td style="padding:12px; color:var(--gold-primary); font-weight:800;">15</td>
+                <td style="padding:12px; color:var(--text-muted);">Clear scope, actors, inputs, outputs, and business goal.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-subtle);">
+                <td style="padding:12px; font-weight:700;">Business Rules & Assumptions</td>
+                <td style="padding:12px; color:var(--gold-primary); font-weight:800;">15</td>
+                <td style="padding:12px; color:var(--text-muted);">Explicit rules, justified assumptions, and unresolved questions.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-subtle); background:rgba(212,175,55,0.04);">
+                <td style="padding:12px; font-weight:700; color:var(--gold-primary);">Logic Quality</td>
+                <td style="padding:12px; color:var(--gold-primary); font-weight:800;">25</td>
+                <td style="padding:12px; color:var(--text-muted);">Correct sequence, conditions, loops, priorities, and decision paths.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-subtle);">
+                <td style="padding:12px; font-weight:700;">Pseudocode Clarity</td>
+                <td style="padding:12px; color:var(--gold-primary); font-weight:800;">20</td>
+                <td style="padding:12px; color:var(--text-muted);">Readable, language-independent, modular, and implementable.</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-subtle);">
+                <td style="padding:12px; font-weight:700;">Edge Cases & Test Cases</td>
+                <td style="padding:12px; color:var(--gold-primary); font-weight:800;">15</td>
+                <td style="padding:12px; color:var(--text-muted);">Realistic exceptions and expected outputs.</td>
+              </tr>
+              <tr>
+                <td style="padding:12px; font-weight:700;">Complexity & Risk Awareness</td>
+                <td style="padding:12px; color:var(--gold-primary); font-weight:800;">10</td>
+                <td style="padding:12px; color:var(--text-muted);">Efficiency, limitations, auditability, and human oversight.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Page 16 Submission Checklist -->
+      <div class="info-banner">
+        <h3 style="color:var(--gold-primary); margin-bottom:14px;">Final Submission Standard Checklist (Page 16)</h3>
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:10px; font-size:0.9rem;">
+          <li style="display:flex; align-items:center; gap:10px;">
+            <span style="color:var(--gold-primary); font-weight:800;">■</span>
+            <span>I have described the business problem in my own words.</span>
+          </li>
+          <li style="display:flex; align-items:center; gap:10px;">
+            <span style="color:var(--gold-primary); font-weight:800;">■</span>
+            <span>I have listed inputs, outputs, assumptions, and business rules.</span>
+          </li>
+          <li style="display:flex; align-items:center; gap:10px;">
+            <span style="color:var(--gold-primary); font-weight:800;">■</span>
+            <span>My pseudocode covers the normal path and exception paths.</span>
+          </li>
+          <li style="display:flex; align-items:center; gap:10px;">
+            <span style="color:var(--gold-primary); font-weight:800;">■</span>
+            <span>I have included at least five meaningful edge cases.</span>
+          </li>
+          <li style="display:flex; align-items:center; gap:10px;">
+            <span style="color:var(--gold-primary); font-weight:800;">■</span>
+            <span>I have provided test inputs and expected results.</span>
+          </li>
+          <li style="display:flex; align-items:center; gap:10px;">
+            <span style="color:var(--gold-primary); font-weight:800;">■</span>
+            <span>I have explained any human approval, privacy, safety, or compliance boundary.</span>
+          </li>
+          <li style="display:flex; align-items:center; gap:10px;">
+            <span style="color:var(--gold-primary); font-weight:800;">■</span>
+            <span>Another student should be able to implement my pseudocode without guessing.</span>
+          </li>
+        </ul>
+        <div style="margin-top:20px; padding-top:14px; border-top:1px solid var(--border-subtle); text-align:center; font-style:italic; color:var(--gold-primary);">
+          "Think like an engineer. Reason like an analyst. Design for the real world."
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODALS                                     -->
+  <!-- ========================================== -->
+
+  <!-- 1. Problem Detail Modal -->
+  <div class="modal-overlay" id="problemDetailModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="problem-num" id="modalProblemCode">#001</span>
+            <span class="gold-badge" id="modalDomainBadge">Domain</span>
+          </div>
+          <h2 id="modalProblemTitle" style="font-size:1.3rem; margin-top:4px;">Problem Title</h2>
+        </div>
+        <button class="modal-close" id="modalCloseBtn" title="Close Modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Sub navigation tabs inside modal -->
+        <div class="modal-subtabs">
+          <button class="modal-subtab-btn active" data-subtab="modalTabOverview">1. Overview & Rules</button>
+          <button class="modal-subtab-btn" data-subtab="modalTabIO">2. Inputs & Algorithm</button>
+          <button class="modal-subtab-btn" data-subtab="modalTabPseudo">3. Pseudocode</button>
+          <button class="modal-subtab-btn" data-subtab="modalTabEdge">4. Edge Cases (5+)</button>
+          <button class="modal-subtab-btn" data-subtab="modalTabTests">5. Test Cases (5+)</button>
+          <button class="modal-subtab-btn" data-subtab="modalTabSim">6. Live Simulator ⚡</button>
+          <button class="modal-subtab-btn" data-subtab="modalTabNotes">7. Scratchpad 📝</button>
+        </div>
+
+        <!-- Subtab 1: Overview -->
+        <div id="modalTabOverview" class="detail-section active">
+          <div class="info-banner" style="border-left: 4px solid var(--gold-primary);">
+            <div style="font-weight:700; color:var(--gold-primary); margin-bottom:6px;">Official Problem Statement:</div>
+            <p id="modalStatementText" style="color:#f0f0f5; font-size:0.92rem;"></p>
+          </div>
+
+          <div class="problem-constraint-box" style="margin-bottom:20px;">
+            <strong style="color:var(--warning);">Real-World Constraint:</strong>
+            <span id="modalConstraintText"></span>
+          </div>
+
+          <h4 style="color:#fff; margin-bottom:8px;">1. Business Goal & Understanding</h4>
+          <p id="modalUnderstandingText" style="color:var(--text-muted); font-size:0.88rem; line-height:1.6; margin-bottom:18px;"></p>
+
+          <h4 style="color:#fff; margin-bottom:8px;">2. Assumptions & Business Rules</h4>
+          <ul id="modalRulesList" style="padding-left:20px; color:var(--text-muted); font-size:0.86rem; line-height:1.6; display:flex; flex-direction:column; gap:6px;"></ul>
+        </div>
+
+        <!-- Subtab 2: IO & Algorithm -->
+        <div id="modalTabIO" class="detail-section">
+          <h4 style="color:#fff; margin-bottom:10px;">3. Input / Output Design</h4>
+          <div style="overflow-x:auto; margin-bottom:20px;">
+            <table style="width:100%; border-collapse:collapse; font-size:0.84rem;">
+              <thead>
+                <tr style="border-bottom:1px solid var(--gold-border); color:var(--gold-primary); text-align:left;">
+                  <th style="padding:8px;">Field</th>
+                  <th style="padding:8px;">Data Type</th>
+                  <th style="padding:8px;">Valid Range</th>
+                  <th style="padding:8px;">Missing Value Strategy</th>
+                </tr>
+              </thead>
+              <tbody id="modalIOTableBody"></tbody>
+            </table>
+          </div>
+
+          <h4 style="color:#fff; margin-bottom:8px;">4. Logic & Algorithmic Steps</h4>
+          <ol id="modalAlgoStepsList" style="padding-left:20px; color:var(--text-muted); font-size:0.86rem; line-height:1.6; display:flex; flex-direction:column; gap:6px;"></ol>
+        </div>
+
+        <!-- Subtab 3: Pseudocode -->
+        <div id="modalTabPseudo" class="detail-section">
+          <div class="code-container">
+            <div class="code-header">
+              <span class="code-lang-tag">PSEUDOCODE • LANGUAGE INDEPENDENT</span>
+              <button id="copyPseudoBtn" class="btn-pill btn-outline-gold" style="padding:4px 10px; font-size:0.75rem;">
+                📋 Copy Code
+              </button>
+            </div>
+            <pre class="code-block" id="modalPseudocodeText"></pre>
+          </div>
+          <div class="info-banner" style="font-size:0.8rem; color:var(--text-muted);">
+            💡 <strong>Evaluation Rubric Note:</strong> Pseudocode provides explicit variable initialization, indentation, defensive null checks, and clear return structures without hidden library dependencies.
+          </div>
+        </div>
+
+        <!-- Subtab 4: Edge Cases -->
+        <div id="modalTabEdge" class="detail-section">
+          <h4 style="color:#fff; margin-bottom:12px;">6. Realistic Edge Cases & Mitigation Strategies</h4>
+          <div id="modalEdgeCasesContainer" style="display:flex; flex-direction:column; gap:12px;"></div>
+        </div>
+
+        <!-- Subtab 5: Test Cases -->
+        <div id="modalTabTests" class="detail-section">
+          <h4 style="color:#fff; margin-bottom:12px;">7. Test Suite (5 Verification Vectors)</h4>
+          <div id="modalTestCasesContainer" style="display:flex; flex-direction:column; gap:12px;"></div>
+        </div>
+
+        <!-- Subtab 6: Live Simulator -->
+        <div id="modalTabSim" class="detail-section">
+          <div class="simulator-box">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <h4 style="color:var(--gold-primary);">Interactive Logic Simulator</h4>
+              <button id="runSimulatorPresetBtn" class="btn-pill btn-outline-gold" style="font-size:0.75rem;">
+                ⚡ Load Sample Input
+              </button>
+            </div>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">
+              Input test parameters to trace branch execution through the rule engine in real time.
+            </p>
+
+            <div class="sim-input-row" id="simulatorInputsGrid"></div>
+
+            <button id="executeSimBtn" class="btn-pill btn-gold" style="margin-top:10px;">
+              ▶ Execute Decision Logic
+            </button>
+
+            <div class="sim-output-box" id="simulatorResultBox">
+              Simulator standby. Click "Execute Decision Logic" to run.
+            </div>
+          </div>
+        </div>
+
+        <!-- Subtab 7: Scratchpad -->
+        <div id="modalTabNotes" class="detail-section">
+          <h4 style="color:#fff; margin-bottom:8px;">Learner Solution Scratchpad</h4>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">
+            Draft your own pseudocode variations, assumptions, or interview notes for this problem statement. Automatically saved locally.
+          </p>
+          <textarea id="modalScratchpadArea" rows="8" style="width:100%; background:#09090f; border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:12px; color:#fff; font-family:monospace; font-size:0.85rem;" placeholder="// Write your personal solution thoughts, interview talking points, or custom pseudocode here..."></textarea>
+          <div style="display:flex; justify-content:flex-end; margin-top:8px;">
+            <button id="saveNotesBtn" class="btn-pill btn-gold" style="font-size:0.76rem;">💾 Save Notes</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer Action Bar -->
+      <div style="padding:16px 24px; background:#14141e; border-top:1px solid var(--gold-border); display:flex; justify-content:space-between; align-items:center;">
+        <button id="modalBookmarkToggleBtn" class="btn-pill btn-outline-gold">
+          ⭐ Bookmark Problem
+        </button>
+        <button id="modalCompleteToggleBtn" class="btn-pill btn-gold">
+          ✔ Mark as Mastered (+50 XP)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Onboarding / Welcome Modal -->
+  <div class="modal-overlay" id="welcomeModal">
+    <div class="modal-window" style="max-width: 480px; text-align: center; padding: 32px 28px;">
+      <div class="brand-icon" style="margin: 0 auto 16px; width:56px; height:56px;">
+        <span style="font-weight:900; color:#ffd700; font-size:1.8rem;">K</span>
+      </div>
+      <div class="gold-badge" style="margin-bottom: 10px;">POWERED BY KAPIL</div>
+      <h2 style="font-size:1.5rem; margin-bottom:8px;">Welcome to LOGIC-VAULT 100</h2>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:20px; line-height:1.5;">
+        Enter your learner name to begin your journey through 100 Real Industry Problem Statements, 5 Mock Tests, and your official Gold Certified Completion.
+      </p>
+
+      <form id="onboardingForm" style="display:flex; flex-direction:column; gap:14px;">
+        <input type="text" id="onboardingNameInput" class="search-input" placeholder="Enter Your Full Name..." required style="text-align:center; font-size:1rem; padding:12px;" autofocus>
+        <button type="submit" class="btn-pill btn-gold" style="padding:12px; justify-content:center; font-size:0.95rem;">
+          🚀 Begin Logic Journey
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Confirmation Dialog (Logoff / Reset) -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal-window" style="max-width: 440px; text-align:center; padding: 28px 24px;">
+      <div style="font-size:2.5rem; margin-bottom:10px;" id="confirmIcon">⚠️</div>
+      <h3 id="confirmTitle" style="margin-bottom:8px;">Are you sure?</h3>
+      <p id="confirmMessage" style="font-size:0.85rem; color:var(--text-muted); margin-bottom:22px;"></p>
+      <div style="display:flex; justify-content:center; gap:12px;">
+        <button id="confirmCancelBtn" class="btn-pill btn-outline-gold" style="padding:8px 20px;">Cancel</button>
+        <button id="confirmActionBtn" class="btn-pill btn-gold" style="padding:8px 20px;">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div>
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+            <span class="gold-text" style="font-weight:800; font-size:1.1rem;">KAPIL'S LOGIC-VAULT 100</span>
+            <span class="gold-badge" style="font-size:0.65rem;">OFFLINE PWA</span>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-muted);">
+            "Think like an engineer. Reason like an analyst. Design for the real world."
+          </p>
+        </div>
+
+        <div style="display:flex; gap:14px; flex-wrap:wrap;">
+          <button id="footerResetBtn" class="btn-pill btn-outline-gold" style="font-size:0.75rem; border-color:var(--danger); color:#f87171;">
+            ⚠️ Reset All Progress
+          </button>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          © 2026 Powered By Kapil. All Rights Reserved. SarlaYash Learning Solutions LLP • Industry-Oriented Logic Practice.
+        </div>
+        <div style="color:var(--gold-primary);">
+          High Performance • Zero Lag • Fully Offline Ready
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data-problems.js"></script>
+  <script src="js/data-tests.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
