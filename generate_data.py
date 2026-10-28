@@ -387,7 +387,7 @@ PROBLEMS_RAW = [
      ["WITHIN_SLA", "ESCALATE_DISTRICT_MAGISTRATE", "RESOLVED_CITIZEN_CONFIRMED"],
      "GOV", "landmark"),
 
-    (54, "Municipal Waste Collection Routing", "Municipal Waste Collection Routing",
+    (54, "Municipal Waste Collection Routing", "Government, Public Services & Smart Cities",
      "Plan collection routes using bin fill estimates, vehicle capacity, road access, collection windows, and disposal-site hours.",
      "Include vehicle restrictions and emergency road closures.",
      ["bin_clusters", "truck_capacity_tons", "bin_fill_level_pct", "road_closure_active"],
