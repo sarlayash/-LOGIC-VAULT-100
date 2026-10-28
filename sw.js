@@ -8,6 +8,7 @@ const ASSETS_TO_CACHE = [
   './js/data-dsa.js',
   './js/data-tests.js',
   './js/app.js',
+  './assets/founder.jpg',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',

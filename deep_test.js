@@ -175,7 +175,7 @@ dt.GRAND_FINAL_ASSESSMENT.questions.forEach((q, idx) => {
 });
 
 console.log('\n====================================================');
-console.log('4. HTML DOM & APP.JS BINDING VERIFICATION');
+console.log('4. HTML DOM & FOUNDER MEDIA VERIFICATION');
 console.log('====================================================');
 
 const htmlContent = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
@@ -184,6 +184,7 @@ const criticalElements = [
   'confettiCanvas', 'brandHomeLink', 'liveClockDisplay', 'networkStatusBadge',
   'soundToggleBtn', 'installAppBtn', 'userProfileBadge', 'userAvatar',
   'headerLearnerName', 'headerUserLevel', 'logoffBtn', 'problemsTab',
+  'founderSection', 'founderImage',
   'dsaTab', 'dsaSearchInput', 'dsaCategorySelect', 'dsaPatternsContainer',
   'dsaPatternModal', 'modalDsaCategoryBadge', 'modalDsaTimeComp', 'modalDsaSpaceComp',
   'modalDsaPatternTitle', 'modalDsaCoreLogic', 'modalDsaWhenToUse', 'modalDsaTemplateText',
@@ -210,7 +211,9 @@ criticalElements.forEach(id => {
   }
 });
 
-assert(missingDomElements.length === 0, 'All critical DOM IDs referenced in app.js exist in index.html', `Missing: ${missingDomElements}`);
+assert(missingDomElements.length === 0, 'All critical DOM IDs referenced exist in index.html', `Missing: ${missingDomElements}`);
+assert(fs.existsSync(path.join(__dirname, 'assets', 'founder.jpg')), 'Founder poster image (assets/founder.jpg) exists');
+assert(fs.statSync(path.join(__dirname, 'assets', 'founder.jpg')).size > 100000, 'Founder poster image is valid high-res asset');
 
 console.log('\n====================================================');
 console.log('5. PWA MANIFEST & SERVICE WORKER VALIDATION');
@@ -226,6 +229,7 @@ assert(fs.existsSync(path.join(__dirname, 'icons', 'favicon.png')), 'favicon.png
 const swContent = fs.readFileSync(path.join(__dirname, 'sw.js'), 'utf8');
 assert(swContent.includes('kapil-logic-vault-v1'), 'sw.js has cache namespace');
 assert(swContent.includes('js/data-dsa.js'), 'sw.js caches data-dsa.js');
+assert(swContent.includes('assets/founder.jpg'), 'sw.js caches assets/founder.jpg');
 assert(swContent.includes('install') && swContent.includes('activate') && swContent.includes('fetch'), 'sw.js implements all standard lifecycle events');
 
 console.log('\n====================================================');
