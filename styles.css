@@ -1215,3 +1215,66 @@ pre.code-block {
     gap: 12px;
   }
 }
+
+/* ==========================================================================
+   DSA PATTERNS STYLING
+   ========================================================================== */
+
+.dsa-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+  position: relative;
+  cursor: pointer;
+}
+
+.dsa-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold-border-bright);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6), 0 0 16px rgba(212, 175, 55, 0.15);
+}
+
+.dsa-core-logic-box {
+  background: rgba(255, 215, 0, 0.08);
+  border: 1px dashed var(--gold-metallic);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dsa-core-logic-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--gold-primary);
+  text-transform: uppercase;
+}
+
+.dsa-core-logic-text {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.dsa-meta-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.dsa-tag-pill {
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}

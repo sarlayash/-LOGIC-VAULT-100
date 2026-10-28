@@ -7,6 +7,7 @@ const path = require('path');
 
 const dp = require('./js/data-problems.js');
 const dt = require('./js/data-tests.js');
+const dsa = require('./js/data-dsa.js');
 
 let passCount = 0;
 let failCount = 0;
@@ -97,7 +98,58 @@ assert(invalidEdgeCases === 0, 'Every problem has at least 5 realistic edge case
 assert(invalidTestCases === 0, 'Every problem has at least 5 structured test verification vectors');
 
 console.log('\n====================================================');
-console.log('2. MOCK TESTS & GRAND FINAL ASSESSMENT VERIFICATION');
+console.log('2. 30 CORE DSA PATTERNS VERIFICATION');
+console.log('====================================================');
+
+assert(Array.isArray(dsa.DSA_PATTERNS), 'DSA_PATTERNS is an array');
+assert(dsa.DSA_PATTERNS.length === 30, `Exact 30 DSA patterns exist (Found: ${dsa.DSA_PATTERNS.length})`);
+
+const EXPECTED_DSA_PATTERNS = [
+  ["Array Traversal", "Visit every element once"],
+  ["Two Pointer", "Two indices moving together/opposite"],
+  ["Sliding Window (Fixed)", "Fixed-size window moves"],
+  ["Sliding Window (Variable)", "Expand and shrink window"],
+  ["HashMap / Frequency", "Store key-value pairs for counting and fast lookup"],
+  ["HashSet", "Fast lookup of uniqueness"],
+  ["Prefix Sum", "Running cumulative sum"],
+  ["Binary Search", "Search by halving the search space"],
+  ["Sorting", "Arrange elements in ascending/descending order"],
+  ["Recursion", "Function calls itself until a base case"],
+  ["Backtracking", "Try → Undo → Try Again"],
+  ["Stack", "LIFO operations"],
+  ["Queue", "FIFO operations"],
+  ["Monotonic Stack", "Maintain increasing/decreasing stack"],
+  ["Linked List", "Traverse and manipulate nodes using pointers"],
+  ["Fast & Slow Pointer", "Two-speed traversal"],
+  ["Trees (DFS)", "Depth-first recursive traversal"],
+  ["Trees (BFS)", "Level-by-level traversal using a queue"],
+  ["Heap / Priority Queue", "Always access min/max efficiently"],
+  ["Greedy", "Choose the locally optimal solution"],
+  ["Dynamic Programming (1D)", "Store solutions to overlapping subproblems"],
+  ["Dynamic Programming (2D)", "DP table over two dimensions"],
+  ["Graph DFS", "Recursive graph traversal"],
+  ["Graph BFS", "Queue-based graph traversal"],
+  ["Union-Find (DSU)", "Merge and find connected components"],
+  ["Trie", "Prefix-based tree for strings"],
+  ["Bit Manipulation", "Operate directly on binary bits"],
+  ["Matrix Traversal", "Navigate rows and columns systematically"],
+  ["Interval Problems", "Sort and merge overlapping intervals"],
+  ["Divide & Conquer", "Break into smaller subproblems and combine"]
+];
+
+EXPECTED_DSA_PATTERNS.forEach(([name, logic]) => {
+  const found = dsa.DSA_PATTERNS.find(p => p.name.toLowerCase() === name.toLowerCase() || p.name.startsWith(name));
+  assert(Boolean(found), `Pattern exists: "${name}"`);
+  if (found) {
+    assert(found.coreLogic.toLowerCase().includes(logic.toLowerCase().slice(0, 15)), `Pattern "${name}" core logic matches: "${found.coreLogic}"`);
+    assert(Boolean(found.template && found.template.length > 20), `Pattern "${name}" has executable pseudocode template`);
+    assert(Array.isArray(found.classicalProblems) && found.classicalProblems.length > 0, `Pattern "${name}" has classical benchmark problems`);
+    assert(Array.isArray(found.industryMapping) && found.industryMapping.length > 0, `Pattern "${name}" mapped to 100 industry problem statements`);
+  }
+});
+
+console.log('\n====================================================');
+console.log('3. MOCK TESTS & GRAND FINAL ASSESSMENT VERIFICATION');
 console.log('====================================================');
 
 assert(Array.isArray(dt.ALL_MOCK_TESTS), 'ALL_MOCK_TESTS is an array');
@@ -123,7 +175,7 @@ dt.GRAND_FINAL_ASSESSMENT.questions.forEach((q, idx) => {
 });
 
 console.log('\n====================================================');
-console.log('3. HTML DOM & APP.JS BINDING VERIFICATION');
+console.log('4. HTML DOM & APP.JS BINDING VERIFICATION');
 console.log('====================================================');
 
 const htmlContent = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
@@ -132,6 +184,10 @@ const criticalElements = [
   'confettiCanvas', 'brandHomeLink', 'liveClockDisplay', 'networkStatusBadge',
   'soundToggleBtn', 'installAppBtn', 'userProfileBadge', 'userAvatar',
   'headerLearnerName', 'headerUserLevel', 'logoffBtn', 'problemsTab',
+  'dsaTab', 'dsaSearchInput', 'dsaCategorySelect', 'dsaPatternsContainer',
+  'dsaPatternModal', 'modalDsaCategoryBadge', 'modalDsaTimeComp', 'modalDsaSpaceComp',
+  'modalDsaPatternTitle', 'modalDsaCoreLogic', 'modalDsaWhenToUse', 'modalDsaTemplateText',
+  'modalDsaClassicalList', 'modalDsaIndustryList', 'modalDsaCloseBtn', 'copyDsaTemplateBtn',
   'testsTab', 'badgesTab', 'certTab', 'standardsTab', 'statsMasteredCount',
   'statsXpPoints', 'overallProgressBar', 'progressPctText', 'problemSearchInput',
   'statusFilterSelect', 'domainFilterScroll', 'problemsContainer',
@@ -157,7 +213,7 @@ criticalElements.forEach(id => {
 assert(missingDomElements.length === 0, 'All critical DOM IDs referenced in app.js exist in index.html', `Missing: ${missingDomElements}`);
 
 console.log('\n====================================================');
-console.log('4. PWA MANIFEST & SERVICE WORKER VALIDATION');
+console.log('5. PWA MANIFEST & SERVICE WORKER VALIDATION');
 console.log('====================================================');
 
 const manifestContent = JSON.parse(fs.readFileSync(path.join(__dirname, 'manifest.webmanifest'), 'utf8'));
@@ -169,6 +225,7 @@ assert(fs.existsSync(path.join(__dirname, 'icons', 'favicon.png')), 'favicon.png
 
 const swContent = fs.readFileSync(path.join(__dirname, 'sw.js'), 'utf8');
 assert(swContent.includes('kapil-logic-vault-v1'), 'sw.js has cache namespace');
+assert(swContent.includes('js/data-dsa.js'), 'sw.js caches data-dsa.js');
 assert(swContent.includes('install') && swContent.includes('activate') && swContent.includes('fetch'), 'sw.js implements all standard lifecycle events');
 
 console.log('\n====================================================');

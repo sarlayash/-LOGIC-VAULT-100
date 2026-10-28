@@ -24,7 +24,10 @@
   let activeDomainFilter = 'ALL';
   let activeStatusFilter = 'ALL';
   let searchQuery = '';
+  let activeDsaCategory = 'ALL';
+  let dsaSearchQuery = '';
   let currentProblem = null;
+  let currentDsaPattern = null;
   let activeExam = null;
   let examAnswers = {};
   let examTimerInterval = null;
@@ -572,6 +575,124 @@ Audit Trail: Telemetry verified within calibrated bounds. Log dispatch completed
     renderProblemsGrid();
   }
 
+  // --- 30 CORE DSA PATTERNS SECTION ---
+  function renderDsaPatterns() {
+    const container = document.getElementById('dsaPatternsContainer');
+    if (!container || typeof DSA_PATTERNS === 'undefined') return;
+
+    let filtered = DSA_PATTERNS.filter(pattern => {
+      if (activeDsaCategory !== 'ALL' && pattern.category !== activeDsaCategory) {
+        return false;
+      }
+      if (dsaSearchQuery.trim() !== '') {
+        const q = dsaSearchQuery.toLowerCase();
+        const matchName = pattern.name.toLowerCase().includes(q);
+        const matchCore = pattern.coreLogic.toLowerCase().includes(q);
+        const matchCat = pattern.category.toLowerCase().includes(q);
+        if (!matchName && !matchCore && !matchCat) return false;
+      }
+      return true;
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align:center; padding: 48px 20px; background:var(--bg-card); border-radius:var(--radius-md); border:1px dashed var(--gold-border);">
+          <div style="font-size:2rem; margin-bottom:8px;">🔍</div>
+          <h3 style="color:#fff; margin-bottom:6px;">No DSA Patterns Found</h3>
+          <p style="color:var(--text-muted); font-size:0.85rem;">Try modifying your keyword search or category filter.</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = '';
+    filtered.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'dsa-card';
+      card.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+          <span class="gold-badge" style="font-size:0.68rem;">${p.category}</span>
+          <span class="problem-num" style="font-size:0.75rem;">${p.timeComplexity}</span>
+        </div>
+        <h3 style="font-size:1.15rem; font-weight:800; color:#fff; margin-bottom:4px;">${p.name}</h3>
+        <div class="dsa-core-logic-box">
+          <span class="dsa-core-logic-label">Core Logic / Algorithm</span>
+          <span class="dsa-core-logic-text">"${p.coreLogic}"</span>
+        </div>
+        <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.45; margin-bottom:12px; flex:1;">
+          ${p.whenToUse}
+        </p>
+        <div style="margin-bottom:14px;">
+          <div style="font-size:0.72rem; color:var(--gold-primary); font-weight:700; text-transform:uppercase; margin-bottom:4px;">
+            Industry Problem Linkage:
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:4px;">
+            ${p.industryMapping.map(m => `<span class="dsa-tag-pill" style="color:#f5f5f7; border-color:rgba(212,175,55,0.25);">${m}</span>`).join('')}
+          </div>
+        </div>
+        <button class="btn-pill btn-gold" data-pattern-id="${p.id}" style="width:100%; justify-content:center;">
+          ⚡ View Template & Logic
+        </button>
+      `;
+
+      card.querySelector(`[data-pattern-id="${p.id}"]`).addEventListener('click', (e) => {
+        e.stopPropagation();
+        openDsaPatternModal(p.id);
+      });
+
+      card.addEventListener('click', () => {
+        openDsaPatternModal(p.id);
+      });
+
+      container.appendChild(card);
+    });
+  }
+
+  function openDsaPatternModal(patternId) {
+    const p = DSA_PATTERNS.find(item => item.id === patternId);
+    if (!p) return;
+    currentDsaPattern = p;
+    AudioEngine.clickSoft();
+
+    document.getElementById('modalDsaCategoryBadge').textContent = p.category;
+    document.getElementById('modalDsaTimeComp').textContent = `Time: ${p.timeComplexity}`;
+    document.getElementById('modalDsaSpaceComp').textContent = `Space: ${p.spaceComplexity}`;
+    document.getElementById('modalDsaPatternTitle').textContent = p.name;
+    document.getElementById('modalDsaCoreLogic').textContent = `"${p.coreLogic}"`;
+    document.getElementById('modalDsaWhenToUse').textContent = p.whenToUse;
+    document.getElementById('modalDsaTemplateText').textContent = p.template;
+
+    const classicalList = document.getElementById('modalDsaClassicalList');
+    classicalList.innerHTML = p.classicalProblems.map(cp => `
+      <span class="gold-badge" style="font-size:0.75rem; text-transform:none;">${cp}</span>
+    `).join('');
+
+    const industryList = document.getElementById('modalDsaIndustryList');
+    industryList.innerHTML = p.industryMapping.map(ip => `
+      <span class="btn-pill btn-outline-gold" style="font-size:0.76rem; cursor:pointer;" data-industry-ref="${ip}">
+        🏢 ${ip}
+      </span>
+    `).join('');
+
+    // Click on mapped industry problem jumps directly to that problem in the vault!
+    industryList.querySelectorAll('[data-industry-ref]').forEach(tag => {
+      tag.addEventListener('click', () => {
+        const ref = tag.dataset.industryRef;
+        const match = ref.match(/#(\d+)/);
+        if (match) {
+          const probId = parseInt(match[1], 10);
+          document.getElementById('dsaPatternModal').classList.remove('active');
+          switchTab('problemsTab');
+          setTimeout(() => {
+            openProblemModal(probId);
+          }, 200);
+        }
+      });
+    });
+
+    document.getElementById('dsaPatternModal').classList.add('active');
+  }
+
   // --- MOCK TESTS & FINAL ASSESSMENT ARENA ---
   function renderTestsSection() {
     const container = document.getElementById('testsGridContainer');
@@ -1110,7 +1231,9 @@ Audit Trail: Telemetry verified within calibrated bounds. Log dispatch completed
       p.style.display = (p.id === targetId) ? 'block' : 'none';
     });
 
-    if (targetId === 'testsTab') {
+    if (targetId === 'dsaTab') {
+      renderDsaPatterns();
+    } else if (targetId === 'testsTab') {
       renderTestsSection();
     } else if (targetId === 'badgesTab') {
       renderBadgesSection();
@@ -1154,6 +1277,33 @@ Audit Trail: Telemetry verified within calibrated bounds. Log dispatch completed
         document.getElementById('problemDetailModal').classList.remove('active');
       }
     });
+
+    // DSA Pattern Modal Close & Copy
+    const dsaCloseBtn = document.getElementById('modalDsaCloseBtn');
+    if (dsaCloseBtn) {
+      dsaCloseBtn.addEventListener('click', () => {
+        document.getElementById('dsaPatternModal').classList.remove('active');
+      });
+    }
+    const dsaModal = document.getElementById('dsaPatternModal');
+    if (dsaModal) {
+      dsaModal.addEventListener('click', (e) => {
+        if (e.target.id === 'dsaPatternModal') {
+          dsaModal.classList.remove('active');
+        }
+      });
+    }
+    const copyDsaBtn = document.getElementById('copyDsaTemplateBtn');
+    if (copyDsaBtn) {
+      copyDsaBtn.addEventListener('click', () => {
+        if (currentDsaPattern) {
+          navigator.clipboard.writeText(currentDsaPattern.template).then(() => {
+            AudioEngine.clickSoft();
+            showToast('📋 DSA Template copied to clipboard!');
+          });
+        }
+      });
+    }
 
     // Subtabs inside problem detail modal
     document.querySelectorAll('.modal-subtab-btn').forEach(btn => {
@@ -1367,6 +1517,23 @@ Audit Trail: Telemetry verified within calibrated bounds. Log dispatch completed
       });
     }
 
+    // DSA Search & Category Select
+    const dsaSearch = document.getElementById('dsaSearchInput');
+    if (dsaSearch) {
+      dsaSearch.addEventListener('input', (e) => {
+        dsaSearchQuery = e.target.value;
+        renderDsaPatterns();
+      });
+    }
+
+    const dsaCatSelect = document.getElementById('dsaCategorySelect');
+    if (dsaCatSelect) {
+      dsaCatSelect.addEventListener('change', (e) => {
+        activeDsaCategory = e.target.value;
+        renderDsaPatterns();
+      });
+    }
+
     // Sound toggle
     const soundBtn = document.getElementById('soundToggleBtn');
     if (soundBtn) {
@@ -1381,6 +1548,7 @@ Audit Trail: Telemetry verified within calibrated bounds. Log dispatch completed
     // Render domains and problems
     renderDomainPills();
     renderProblemsGrid();
+    renderDsaPatterns();
     updateAllUI();
     checkOnboarding();
   }

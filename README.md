@@ -43,7 +43,41 @@
 11. **Telecom, Media & Digital Platforms** (085 - 092)
 12. **HR, Professional Services & Enterprise Operations** (093 - 100)
 
-### 3. 🎯 Full 8-Point Submission Standard for Every Problem
+### 3. ⚡ 30 Core DSA Patterns & Algorithmic Mental Models
+| # | DSA Pattern | Core Logic / Algorithm | Optimal Complexity |
+|---|---|---|---|
+| 01 | **Array Traversal** | Visit every element once | $O(N)$ Time, $O(1)$ Space |
+| 02 | **Two Pointer** | Two indices moving together/opposite | $O(N)$ Time, $O(1)$ Space |
+| 03 | **Sliding Window (Fixed)** | Fixed-size window moves | $O(N)$ Time, $O(1)$ Space |
+| 04 | **Sliding Window (Variable)** | Expand and shrink window | $O(N)$ Time, $O(K)$ Space |
+| 05 | **HashMap / Frequency** | Store key-value pairs for counting and fast lookup | $O(1)$ Avg, $O(N)$ Space |
+| 06 | **HashSet** | Fast lookup of uniqueness | $O(1)$ Avg, $O(N)$ Space |
+| 07 | **Prefix Sum** | Running cumulative sum | $O(N)$ Build, $O(1)$ Query |
+| 08 | **Binary Search** | Search by halving the search space | $O(\log N)$ Time, $O(1)$ Space |
+| 09 | **Sorting** | Arrange elements in ascending/descending order | $O(N \log N)$ Time |
+| 10 | **Recursion** | Function calls itself until a base case | $O(D)$ Stack Space |
+| 11 | **Backtracking** | Try → Undo → Try Again | Exponential $O(K^N)$ |
+| 12 | **Stack** | LIFO operations (Last In, First Out) | $O(1)$ Push/Pop |
+| 13 | **Queue** | FIFO operations (First In, First Out) | $O(1)$ Enqueue/Dequeue |
+| 14 | **Monotonic Stack** | Maintain increasing/decreasing stack | $O(N)$ Time, $O(N)$ Space |
+| 15 | **Linked List** | Traverse and manipulate nodes using pointers | $O(N)$ Walk, $O(1)$ Insert |
+| 16 | **Fast & Slow Pointer** | Two-speed traversal (Floyd's Cycle) | $O(N)$ Time, $O(1)$ Space |
+| 17 | **Trees (DFS)** | Depth-first recursive traversal | $O(N)$ Time, $O(H)$ Space |
+| 18 | **Trees (BFS)** | Level-by-level traversal using a queue | $O(N)$ Time, $O(W)$ Space |
+| 19 | **Heap / Priority Queue** | Always access min/max efficiently | $O(\log N)$ Insert, $O(1)$ Peek |
+| 20 | **Greedy** | Choose the locally optimal solution | $O(N \log N)$ or $O(N)$ |
+| 21 | **Dynamic Programming (1D)** | Store solutions to overlapping subproblems | $O(N)$ Time, $O(N)$ Space |
+| 22 | **Dynamic Programming (2D)** | DP table over two dimensions | $O(M \times N)$ Time/Space |
+| 23 | **Graph DFS** | Recursive graph traversal | $O(V + E)$ Time, $O(V)$ Space |
+| 24 | **Graph BFS** | Queue-based graph traversal | $O(V + E)$ Time, $O(V)$ Space |
+| 25 | **Union-Find (DSU)** | Merge and find connected components | $O(\alpha(N))$ Near Constant |
+| 26 | **Trie (Prefix Tree)** | Prefix-based tree for strings | $O(L)$ Time per key |
+| 27 | **Bit Manipulation** | Operate directly on binary bits | $O(1)$ Time & Space |
+| 28 | **Matrix Traversal** | Navigate rows and columns systematically | $O(M \times N)$ Time |
+| 29 | **Interval Problems** | Sort and merge overlapping intervals | $O(N \log N)$ Time |
+| 30 | **Divide & Conquer** | Break into smaller subproblems and combine | $O(N \log N)$ Time |
+
+### 4. 🎯 Full 8-Point Submission Standard for Every Problem
 - **1. Problem Understanding & Business Objective**
 - **2. Assumptions & Business Rules**
 - **3. Input / Output Design Table**

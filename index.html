@@ -80,6 +80,10 @@
         <span>📚 100 Logic & Pseudocodes</span>
         <span class="tab-badge" id="tabProblemsCount">0/100</span>
       </button>
+      <button class="tab-btn" data-tab="dsaTab">
+        <span>⚡ 30 Core DSA Patterns</span>
+        <span class="tab-badge">30 Patterns</span>
+      </button>
       <button class="tab-btn" data-tab="testsTab">
         <span>📝 Mock Tests & Finals</span>
         <span class="tab-badge">6 Exams</span>
@@ -191,7 +195,65 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- TAB 2: MOCK TESTS & GRAND FINAL ASSESSMENT -->
+    <!-- TAB 2: 30 CORE DSA PATTERNS                -->
+    <!-- ========================================== -->
+    <section id="dsaTab" class="tab-pane" style="display:none;">
+      <div class="hero-card" style="margin-bottom: 24px;">
+        <div class="gold-badge" style="margin-bottom: 10px;">ALGORITHMIC FOUNDATIONS</div>
+        <h2 class="hero-headline">30 Core DSA Patterns & Algorithmic Mental Models</h2>
+        <p class="hero-tagline">
+          The essential patterns that form the backbone of scalable computing. Master each pattern's core logic, time/space complexities, standard implementation template, and direct mapping to our 100 industry problem statements.
+        </p>
+        <div class="hero-metrics" style="margin-top: 18px;">
+          <div class="metric-box">
+            <span class="metric-value">30</span>
+            <span class="metric-label">Core Patterns</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-value">9</span>
+            <span class="metric-label">Pattern Families</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-value">100%</span>
+            <span class="metric-label">Industry Mapped</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-value">O(1) to O(N)</span>
+            <span class="metric-label">Optimal Runtimes</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls: Search & Category Filter -->
+      <div class="controls-bar">
+        <div class="controls-row-top">
+          <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="dsaSearchInput" class="search-input" placeholder="Search patterns by name, core logic, or keyword (e.g. Sliding Window, Two Pointer, Heap)...">
+          </div>
+          <select id="dsaCategorySelect" class="filter-select">
+            <option value="ALL">All Categories (30 Patterns)</option>
+            <option value="Arrays & Searching">Arrays & Searching</option>
+            <option value="Pointers & Windows">Pointers & Windows</option>
+            <option value="Hashing & Tables">Hashing & Tables</option>
+            <option value="Linear Structures">Linear Structures</option>
+            <option value="Recursion & Trees">Recursion & Trees</option>
+            <option value="Dynamic Programming">Dynamic Programming</option>
+            <option value="Graphs & Networks">Graphs & Networks</option>
+            <option value="Advanced Structures">Advanced Structures</option>
+            <option value="Algorithms & Optimization">Algorithms & Optimization</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Patterns Cards Grid -->
+      <div class="problems-grid" id="dsaPatternsContainer">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: MOCK TESTS & GRAND FINAL ASSESSMENT -->
     <!-- ========================================== -->
     <section id="testsTab" class="tab-pane" style="display:none;">
       <!-- Hero -->
@@ -595,6 +657,55 @@
     </div>
   </div>
 
+  <!-- 4. DSA Pattern Detail Modal -->
+  <div class="modal-overlay" id="dsaPatternModal">
+    <div class="modal-window" style="max-width: 820px;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="gold-badge" id="modalDsaCategoryBadge">Category</span>
+            <span class="problem-num" id="modalDsaTimeComp">O(N)</span>
+            <span class="problem-num" id="modalDsaSpaceComp" style="color:#38bdf8; border-color:rgba(56,189,248,0.3); background:rgba(56,189,248,0.1);">O(1)</span>
+          </div>
+          <h2 id="modalDsaPatternTitle" style="font-size:1.3rem; margin-top:4px;">Pattern Title</h2>
+        </div>
+        <button class="modal-close" id="modalDsaCloseBtn" title="Close Modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="info-banner" style="border-left: 4px solid var(--gold-primary); margin-bottom:16px;">
+          <div style="font-weight:700; color:var(--gold-primary); font-size:0.82rem; margin-bottom:4px;">CORE LOGIC / ALGORITHM:</div>
+          <div id="modalDsaCoreLogic" style="font-size:1.05rem; color:#fff; font-weight:700;"></div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <h4 style="color:#fff; margin-bottom:6px; font-size:0.92rem;">When to Apply This Pattern:</h4>
+          <p id="modalDsaWhenToUse" style="color:var(--text-muted); font-size:0.86rem; line-height:1.5;"></p>
+        </div>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-lang-tag">ALGORITHMIC PSEUDOCODE TEMPLATE</span>
+            <button id="copyDsaTemplateBtn" class="btn-pill btn-outline-gold" style="padding:4px 10px; font-size:0.75rem;">
+              📋 Copy Template
+            </button>
+          </div>
+          <pre class="code-block" id="modalDsaTemplateText"></pre>
+        </div>
+
+        <div style="margin-top:16px;">
+          <h4 style="color:#fff; margin-bottom:8px; font-size:0.9rem;">Classical Problems & Benchmark Challenges:</h4>
+          <div id="modalDsaClassicalList" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <h4 style="color:var(--gold-primary); margin-bottom:8px; font-size:0.9rem;">Mapped Real Industry Decisions in Vault:</h4>
+          <div id="modalDsaIndustryList" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="app-footer">
     <div class="footer-container">
@@ -629,6 +740,7 @@
 
   <!-- Scripts -->
   <script src="js/data-problems.js"></script>
+  <script src="js/data-dsa.js"></script>
   <script src="js/data-tests.js"></script>
   <script src="js/app.js"></script>
 

@@ -5,6 +5,7 @@ const ASSETS_TO_CACHE = [
   './index.html',
   './styles.css',
   './js/data-problems.js',
+  './js/data-dsa.js',
   './js/data-tests.js',
   './js/app.js',
   './manifest.webmanifest',
