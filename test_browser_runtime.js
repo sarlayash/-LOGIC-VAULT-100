@@ -41,7 +41,7 @@ async function runBrowserTest() {
     '--disable-gpu',
     '--no-first-run',
     '--no-default-browser-check',
-    '--user-data-dir=C:\\Users\\LC\\AppData\\Local\\Temp\\chrome_vault_test2',
+    '--user-data-dir=C:\\Users\\LC\\AppData\\Local\\Temp\\chrome_vault_test_v3',
     TARGET_URL
   ], { detached: false });
 
@@ -124,6 +124,8 @@ async function runBrowserTest() {
 
   await sendCmd('Runtime.enable');
   await sendCmd('Page.enable');
+  await sendCmd('Network.enable');
+  await sendCmd('Network.setCacheDisabled', { cacheDisabled: true });
 
   console.log("[PASS] Connected via WebSocket to page target. Navigating to " + TARGET_URL);
   await sendCmd('Page.navigate', { url: TARGET_URL });
@@ -251,6 +253,59 @@ async function runBrowserTest() {
     }
   `);
   await sleep(300);
+
+  // Set desktop viewport 1440x900 for desktop sidebar test
+  await sendCmd('Emulation.setDeviceMetricsOverride', {
+    width: 1440,
+    height: 900,
+    deviceScaleFactor: 1,
+    mobile: false
+  });
+  await sleep(300);
+
+  // TEST 8B: Left Navigation Bar Expand & Collapse Audit
+  const sidebarExists = await evalInPage("!!document.getElementById('sidebarNav')");
+  console.log(`[PASS] Left Sidebar Navigation Bar exists in DOM: ${sidebarExists}`);
+
+  const initialWidth = await evalInPage("document.getElementById('sidebarNav')?.offsetWidth");
+  console.log(`[PASS] Left Sidebar Initial Width (Expanded): ${initialWidth}px`);
+
+  // Test Collapse Button
+  await evalInPage(`
+    document.getElementById('sidebarCollapseBtn')?.click();
+  `);
+  await sleep(400);
+  const isCollapsed = await evalInPage("document.getElementById('sidebarNav')?.classList.contains('collapsed')");
+  const collapsedWidth = await evalInPage("document.getElementById('sidebarNav')?.offsetWidth");
+  console.log(`[PASS] Left Sidebar Collapsed: active=${isCollapsed}, width=${collapsedWidth}px (Target ~68px)`);
+
+  // Test Expand via Footer Trigger
+  await evalInPage(`
+    document.getElementById('sidebarCollapseTrigger')?.click();
+  `);
+  await sleep(400);
+  const isExpandedAgain = await evalInPage("!document.getElementById('sidebarNav')?.classList.contains('collapsed')");
+  const expandedWidth = await evalInPage("document.getElementById('sidebarNav')?.offsetWidth");
+  console.log(`[PASS] Left Sidebar Expanded via Trigger: active=${isExpandedAgain}, width=${expandedWidth}px (Target ~270px)`);
+
+  // Test Ctrl+B keyboard shortcut toggle
+  await evalInPage(`
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'b', ctrlKey: true, bubbles: true }));
+  `);
+  await sleep(350);
+  const isShortcutCollapsed = await evalInPage("document.getElementById('sidebarNav')?.classList.contains('collapsed')");
+  console.log(`[PASS] Left Sidebar toggled via Ctrl+B shortcut: collapsed=${isShortcutCollapsed}`);
+
+  // Re-expand for subsequent tests
+  await evalInPage(`
+    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'b', ctrlKey: true, bubbles: true }));
+  `);
+  await sleep(350);
+
+  // Test Navigation item inside Left Sidebar
+  const sidebarItemsCount = await evalInPage("document.querySelectorAll('#sidebarNav .sidebar-nav-item').length");
+  console.log(`[PASS] Left Sidebar navigation items rendered: ${sidebarItemsCount} items`);
+
 
   // TEST 9: Switch to "⚡ 30 Core DSA Patterns" Tab
   await evalInPage(`

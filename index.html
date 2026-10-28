@@ -20,18 +20,25 @@
   <!-- Header -->
   <header class="app-header">
     <div class="header-container">
-      <a class="header-brand" id="brandHomeLink" href="#problems">
-        <div class="brand-icon">
-          <span style="font-weight:900; color:#ffd700; font-size:1.2rem;">K</span>
-        </div>
-        <div class="brand-titles">
-          <span class="brand-name">
-            <span class="gold-text">LOGIC-VAULT</span>
-            <span style="color:#ffd700;">100</span>
-          </span>
-          <span class="brand-sub">POWERED BY KAPIL</span>
-        </div>
-      </a>
+      <div class="header-left">
+        <button id="sidebarToggleBtn" class="sidebar-toggle-btn" title="Toggle Navigation Bar (Ctrl+B)" aria-label="Toggle Navigation Bar">
+          <span class="toggle-bar"></span>
+          <span class="toggle-bar"></span>
+          <span class="toggle-bar"></span>
+        </button>
+        <a class="header-brand" id="brandHomeLink" href="#problems">
+          <div class="brand-icon">
+            <span style="font-weight:900; color:#ffd700; font-size:1.2rem;">K</span>
+          </div>
+          <div class="brand-titles">
+            <span class="brand-name">
+              <span class="gold-text">LOGIC-VAULT</span>
+              <span style="color:#ffd700;">100</span>
+            </span>
+            <span class="brand-sub">POWERED BY KAPIL</span>
+          </div>
+        </a>
+      </div>
 
       <!-- Real-time dynamic clock -->
       <div class="header-center">
@@ -73,8 +80,96 @@
     </div>
   </header>
 
-  <!-- Navigation Tabs Bar -->
-  <nav class="nav-tabs-bar">
+  <!-- Main Application Shell with Collapsible Left Navigation Bar -->
+  <div class="app-shell" id="appShell">
+
+    <!-- Mobile Drawer Backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- Left Navigation Bar with Expand & Collapse -->
+    <aside class="sidebar-nav" id="sidebarNav" aria-label="Main Navigation">
+      <!-- Sidebar Header -->
+      <div class="sidebar-header">
+        <div class="sidebar-brand-pill">
+          <span class="sidebar-mini-icon">👑</span>
+          <span class="sidebar-brand-text">LOGIC HUB</span>
+        </div>
+        <button id="sidebarCollapseBtn" class="sidebar-collapse-btn" title="Collapse / Expand Sidebar (Ctrl+B)" aria-label="Collapse Navigation">
+          <span class="collapse-icon">«</span>
+        </button>
+      </div>
+
+      <!-- Navigation Menu Items -->
+      <nav class="sidebar-menu">
+        <div class="sidebar-section-label">CORE CURRICULUM</div>
+
+        <button class="sidebar-nav-item tab-btn active" data-tab="problemsTab" data-tooltip="100 Logic & Pseudocodes">
+          <span class="nav-icon">📚</span>
+          <span class="nav-label">100 Logic & Pseudocodes</span>
+          <span class="nav-badge" id="sideTabProblemsCount">0/100</span>
+        </button>
+
+        <button class="sidebar-nav-item tab-btn" data-tab="dsaTab" data-tooltip="30 Core DSA Patterns">
+          <span class="nav-icon">⚡</span>
+          <span class="nav-label">30 Core DSA Patterns</span>
+          <span class="nav-badge">30</span>
+        </button>
+
+        <div class="sidebar-section-label">ASSESSMENTS & REWARDS</div>
+
+        <button class="sidebar-nav-item tab-btn" data-tab="testsTab" data-tooltip="Mock Tests & Finals">
+          <span class="nav-icon">📝</span>
+          <span class="nav-label">Mock Tests & Finals</span>
+          <span class="nav-badge">5+1</span>
+        </button>
+
+        <button class="sidebar-nav-item tab-btn" data-tab="badgesTab" data-tooltip="Badges & Mastery">
+          <span class="nav-icon">🏆</span>
+          <span class="nav-label">Badges & Mastery</span>
+          <span class="nav-badge" id="sideTabBadgesCount">0/18</span>
+        </button>
+
+        <button class="sidebar-nav-item tab-btn" data-tab="certTab" data-tooltip="Gold Certificate">
+          <span class="nav-icon">📜</span>
+          <span class="nav-label">Gold Certificate</span>
+          <span class="nav-badge" id="sideTabCertBadge">Locked</span>
+        </button>
+
+        <div class="sidebar-section-label">ACCREDITATION & VISION</div>
+
+        <button class="sidebar-nav-item tab-btn" data-tab="standardsTab" data-tooltip="Rubric & Standards">
+          <span class="nav-icon">⚖️</span>
+          <span class="nav-label">Rubric & Standards</span>
+          <span class="nav-badge">100M</span>
+        </button>
+
+        <button class="sidebar-nav-item" id="sideFounderBtn" data-tooltip="Founder's Note & Vision">
+          <span class="nav-icon">⭐</span>
+          <span class="nav-label">Founder's Note</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar Footer User Card & Toggle Trigger -->
+      <div class="sidebar-footer">
+        <div class="sidebar-user-card" id="sidebarUserCard">
+          <div class="sidebar-avatar" id="sidebarAvatar">K</div>
+          <div class="sidebar-user-meta">
+            <span class="sidebar-user-name" id="sidebarLearnerName">Learner</span>
+            <span class="sidebar-user-tier" id="sidebarUserLevel">Level 1 • 0 XP</span>
+          </div>
+        </div>
+        <button id="sidebarCollapseTrigger" class="sidebar-expand-collapse-toggle" title="Toggle collapse (Ctrl+B)">
+          <span class="sidebar-toggle-arrow">«</span>
+          <span class="sidebar-toggle-text">Collapse Menu</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Container -->
+    <div class="app-workspace" id="appWorkspace">
+
+      <!-- Top Navigation Tabs Bar -->
+      <nav class="nav-tabs-bar" id="topNavTabsBar">
     <div class="nav-tabs-container">
       <button class="tab-btn active" data-tab="problemsTab">
         <span>📚 100 Logic & Pseudocodes</span>
@@ -530,6 +625,41 @@
 
   </main>
 
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div>
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+            <span class="gold-text" style="font-weight:800; font-size:1.1rem;">KAPIL'S LOGIC-VAULT 100</span>
+            <span class="gold-badge" style="font-size:0.65rem;">OFFLINE PWA</span>
+          </div>
+          <p style="font-size:0.82rem; color:var(--text-muted);">
+            "Think like an engineer. Reason like an analyst. Design for the real world."
+          </p>
+        </div>
+
+        <div style="display:flex; gap:14px; flex-wrap:wrap;">
+          <button id="footerResetBtn" class="btn-pill btn-outline-gold" style="font-size:0.75rem; border-color:var(--danger); color:#f87171;">
+            ⚠️ Reset All Progress
+          </button>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          © 2026 Powered By Kapil. All Rights Reserved. SarlaYash Learning Solutions LLP • Industry-Oriented Logic Practice.
+        </div>
+        <div style="color:var(--gold-primary);">
+          High Performance • Zero Lag • Fully Offline Ready
+        </div>
+      </div>
+    </div>
+  </footer>
+    </div><!-- /#appWorkspace -->
+  </div><!-- /#appShell -->
+
+
   <!-- ========================================== -->
   <!-- MODALS                                     -->
   <!-- ========================================== -->
@@ -761,37 +891,7 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="app-footer">
-    <div class="footer-container">
-      <div class="footer-top">
-        <div>
-          <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-            <span class="gold-text" style="font-weight:800; font-size:1.1rem;">KAPIL'S LOGIC-VAULT 100</span>
-            <span class="gold-badge" style="font-size:0.65rem;">OFFLINE PWA</span>
-          </div>
-          <p style="font-size:0.82rem; color:var(--text-muted);">
-            "Think like an engineer. Reason like an analyst. Design for the real world."
-          </p>
-        </div>
 
-        <div style="display:flex; gap:14px; flex-wrap:wrap;">
-          <button id="footerResetBtn" class="btn-pill btn-outline-gold" style="font-size:0.75rem; border-color:var(--danger); color:#f87171;">
-            ⚠️ Reset All Progress
-          </button>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <div>
-          © 2026 Powered By Kapil. All Rights Reserved. SarlaYash Learning Solutions LLP • Industry-Oriented Logic Practice.
-        </div>
-        <div style="color:var(--gold-primary);">
-          High Performance • Zero Lag • Fully Offline Ready
-        </div>
-      </div>
-    </div>
-  </footer>
 
   <!-- Scripts -->
   <script src="js/data-problems.js"></script>

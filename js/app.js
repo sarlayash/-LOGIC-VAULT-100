@@ -1111,6 +1111,8 @@ Audit Trail: Telemetry verified within calibrated bounds. Log dispatch completed
     });
     document.getElementById('badgeUnlockedCount').textContent = `${count} / 18`;
     document.getElementById('tabBadgesCount').textContent = `${count}/18`;
+    const sideBadgeCount = document.getElementById('sideTabBadgesCount');
+    if (sideBadgeCount) sideBadgeCount.textContent = `${count}/18`;
   }
 
   // --- CERTIFICATE CHECK & DISPLAY ---
@@ -1134,6 +1136,10 @@ Audit Trail: Telemetry verified within calibrated bounds. Log dispatch completed
     if (tabBadge) {
       tabBadge.textContent = isUnlocked ? 'Unlocked ✔' : 'Locked';
       tabBadge.style.color = isUnlocked ? '#10b981' : '#ffd700';
+    }
+    const sideCertBadge = document.getElementById('sideTabCertBadge');
+    if (sideCertBadge) {
+      sideCertBadge.textContent = isUnlocked ? 'Issued 📜' : 'Locked';
     }
 
     const learnerEl = document.getElementById('certLearnerName');
@@ -1210,6 +1216,22 @@ Audit Trail: Telemetry verified within calibrated bounds. Log dispatch completed
 
     const countTab = document.getElementById('tabProblemsCount');
     if (countTab) countTab.textContent = `${state.completedProblems.length}/100`;
+
+    const sideCountTab = document.getElementById('sideTabProblemsCount');
+    if (sideCountTab) sideCountTab.textContent = `${state.completedProblems.length}/100`;
+
+    const sideLearnerName = document.getElementById('sidebarLearnerName');
+    if (sideLearnerName) sideLearnerName.textContent = state.learnerName || 'Learner';
+
+    const sideUserLevel = document.getElementById('sidebarUserLevel');
+    if (sideUserLevel) sideUserLevel.textContent = `${currentTier.name} • ${state.xp} XP`;
+
+    const sideAvatar = document.getElementById('sidebarAvatar');
+    if (sideAvatar) {
+      sideAvatar.textContent = (state.learnerName && state.learnerName.trim().length > 0)
+        ? state.learnerName.trim()[0].toUpperCase()
+        : 'K';
+    }
 
     // Sound toggle icon
     const soundBtn = document.getElementById('soundToggleBtn');
@@ -1472,10 +1494,84 @@ Audit Trail: Telemetry verified within calibrated bounds. Log dispatch completed
   }
 
   // --- INITIALIZATION ---
+  // --- SIDEBAR NAVIGATION (EXPAND & COLLAPSE) ---
+  function setupSidebarNavigation() {
+    const sidebar = document.getElementById('sidebarNav');
+    const collapseBtn = document.getElementById('sidebarCollapseBtn');
+    const collapseTrigger = document.getElementById('sidebarCollapseTrigger');
+    const toggleBtn = document.getElementById('sidebarToggleBtn');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    const sideFounder = document.getElementById('sideFounderBtn');
+
+    if (!sidebar) return;
+
+    // 1. Restore saved collapsed state on desktop
+    const isSavedCollapsed = localStorage.getItem('klv_sidebar_collapsed') === 'true';
+    if (isSavedCollapsed && window.innerWidth > 1024) {
+      sidebar.classList.add('collapsed');
+    }
+
+    function isMobileView() {
+      return window.innerWidth <= 1024;
+    }
+
+    function toggleCollapse() {
+      AudioEngine.clickSoft();
+      if (isMobileView()) {
+        const isOpen = sidebar.classList.toggle('mobile-open');
+        if (backdrop) backdrop.classList.toggle('active', isOpen);
+      } else {
+        const isCollapsed = sidebar.classList.toggle('collapsed');
+        localStorage.setItem('klv_sidebar_collapsed', isCollapsed ? 'true' : 'false');
+      }
+    }
+
+    function closeMobileSidebar() {
+      if (isMobileView()) {
+        sidebar.classList.remove('mobile-open');
+        if (backdrop) backdrop.classList.remove('active');
+      }
+    }
+
+    if (collapseBtn) collapseBtn.addEventListener('click', toggleCollapse);
+    if (collapseTrigger) collapseTrigger.addEventListener('click', toggleCollapse);
+    if (toggleBtn) toggleBtn.addEventListener('click', toggleCollapse);
+    if (backdrop) backdrop.addEventListener('click', closeMobileSidebar);
+
+    // Auto-close mobile drawer when selecting any navigation item
+    document.querySelectorAll('.sidebar-nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        closeMobileSidebar();
+      });
+    });
+
+    // Founder note jump from sidebar
+    if (sideFounder) {
+      sideFounder.addEventListener('click', () => {
+        AudioEngine.clickSoft();
+        switchTab('problemsTab');
+        closeMobileSidebar();
+        const fSec = document.getElementById('founderSection');
+        if (fSec) {
+          fSec.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
+    // Global keyboard shortcut: Ctrl+B or Cmd+B to toggle sidebar
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'b' || e.key === 'B')) {
+        e.preventDefault();
+        toggleCollapse();
+      }
+    });
+  }
+
   function init() {
     loadState();
     startLiveClock();
     setupModals();
+    setupSidebarNavigation();
     setupPWA();
 
     // Tab buttons event listeners
